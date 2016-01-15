@@ -1,2 +1,2 @@
-# Tapiocas-s-Library
+# Algorithm Library
 My Algorithm Library for Programming Contests.
