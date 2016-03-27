@@ -1,30 +1,32 @@
 #include <bits/stdc++.h>
 
 const int MAXN = 10010;
+const int INF = INT_MAX / 3;
 
 using namespace std;
 
+int p;
 vector<int> graph[MAXN];
 int dist[MAXN];
 
-void bfs(int u, int n){
+void bfs(int s, int n){
   queue<int> q;
 
-  for(int i = 0; i < n; i++){
-    dist[i] = -1;
+  for(int i = 1; i <= n; i++){
+    dist[i] = INF;
   }
 
-  dist[u] = 0;
-  q.push(u);
+  dist[s] = 0;
+  q.push(s);
 
   while(!q.empty()){
-    u = q.front();
+    s = q.front();
     q.pop();
 
-    for(int i = 0; i < (int)graph[u].size(); i++){
-      int v = graph[u][i];
-      if(dist[v] == -1){
-        dist[v] = dist[u] + 1;
+    for(int i = 0; i < (int)graph[s].size(); i++){
+      int v = graph[s][i];
+      if(dist[v] > dist[u] + p){
+        dist[v] = dist[s] + p;
         q.push(v);
       }
     }
