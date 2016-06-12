@@ -1,34 +1,42 @@
 #include <bits/stdc++.h>
 
-const int MAXN = 1010;
+const int N = 500;
 
 using namespace std;
 
-vector<int> graph[MAXN];
+bool mark[N];
+int match[N];
+vector<int> graph[N];
 
-int augment(int v) {
-
+int alternate(int u) {
+  if (mark[u]) {
+    return 0;
+  }
+  mark[u] = true;
+  for (int i = 0; i < graph[u].size(); i++) {
+    int v = graph[u][i];
+    if (match[v] == -1 || alternate(match[v])) {
+      match[v] = u;
+      return 1;
+    }
+  }
+  return 0;
 }
 
 int main() {
-	int n, e;
-
-	scanf("%d %d", &n, &e);
-
-	while (e--) {
-		int u, v;
-		scanf("%d %d", &u, &v);
-		graph[u].push_back(v);
-		graph[v].push_back(u);
-	}
-
-	memset(match, -1, sizeof match);
-
-	for (int i = 0; i < v; i++) {
-		memset(mark, false, sizeof mark);
-
-		
-	}
-
-	return 0;
+  int v, e;
+  scanf("%d %d", &v, &e);
+  while (e--) {
+    int x, y;
+    scanf("%d %d", &x, &y);
+    graph[x].push_back(y);
+  }
+  int mcbm = 0;
+  memset(match, -1, sizeof match);
+  for (int i = 0; i < v; i++) {
+    memset(mark, false, sizeof mark);
+    mcbm += alternate(i);
+  }
+  printf("%d\n", mcbm);
+  return 0;
 }
