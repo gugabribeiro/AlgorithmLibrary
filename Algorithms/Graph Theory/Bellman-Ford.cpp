@@ -34,7 +34,7 @@ bool hasNegativeCycle(int n) {
     for (int j = 0; j < graph[i].size(); i++) {
       int v = graph[i][j].first;
       int w = graph[i][j].second;
-      if (dist[v] > dist[u] + w) {
+      if (dist[v] > dist[i] + w) {
         return true;
       }
     }
