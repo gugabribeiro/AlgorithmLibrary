@@ -32,7 +32,7 @@ void dijkstra(int s, int n){
         int w = graph[u][i].second;
         if (dist[v] > dist[u] + w) {
           dist[v] = dist[u] + w;
-          pq.push({dist[v], v})
+          pq.push({dist[v], v});
         }
       }
     }
