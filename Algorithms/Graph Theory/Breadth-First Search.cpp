@@ -26,7 +26,7 @@ void bfs(int s, int n){
     for(int i = 0; i < (int)graph[s].size(); i++){
       int v = graph[s][i];
       if(dist[v] > dist[u] + p){
-        dist[v] = dist[s] + p;
+        dist[v] = dist[u] + p;
         q.push(v);
       }
     }
