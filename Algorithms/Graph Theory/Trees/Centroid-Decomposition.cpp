@@ -42,11 +42,7 @@ int get_centroid(int u, int p, int tree_size) {
 }
 
 int get_centroid(int u) {
-  memset(sub_size, 0, sizeof sub_size);
-  int tree_size = dfs(u, u);
-  int centroid = get_centroid(u, u, tree_size);
-  is_centroid[centroid] = true;
-  return centroid;
+  return get_centroid(u, u, dfs(u, u));
 }
 
 int decompose_tree(int root) {
