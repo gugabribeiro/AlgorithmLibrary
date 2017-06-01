@@ -2,53 +2,52 @@
 
 using namespace std;
 
-const int N = 100010;
-
-typedef long long lint;
-
-int a[N], ax[N];
-
-//Sorting array "a" and return the numbers of invertions of "a"
-//The number of invertions is the number of indices 1 <= i, j <= n such that i < j and a[i] > a[j]
-//This number can not fit in an integer of 32 bits
-lint mergeSort(int lo, int hi) {
-  if (lo >= hi)
+long long merge_sort(vector<int> &array, int from, int to) {
+  if (from >= to) {
     return 0;
+  } else {
+    int mid = (from + to) / 2;
+    
+    long long inv = merge_sort(array, from, mid) +
+                    merge_sort(array, mid + 1, to);
+    
+    int len = to - from + 1, i = from, j = mid + 1, k = 0;
+    vector<int> sorted_array(len);
 
-  int md = (lo + hi) / 2;
-  
-  lint res = mergeSort(lo, md) + mergeSort(md + 1, hi);
-
-  int k = lo, j = md + 1;
-  for (int i = lo; i <= md; i++) {
-    while (j <= hi and a[i] > a[j]) {
-      ax[k++] = a[j++];
-      res += lint(md - i + 1); //counting the number of inversions
+    while (k < len) {
+      if (i <= mid and j <= to) {
+        if (array[i] < array[j]) {
+          sorted_array[k] = array[i];
+          ++i;
+        } else {
+          inv += (mid - i + 1);
+          sorted_array[k] = array[j];
+          ++j;
+        }
+      } else if (i <= mid) {
+        sorted_array[k] = array[i];
+        ++i;
+      } else {
+        sorted_array[k] = array[j];
+        ++j;
+      }
+      ++k;
     }
-    ax[k++] = a[i];
+
+    for (int i = from; i <= to; ++i) {
+      array[i] = sorted_array[i - from];
+    }
+
+    return inv;
   }
-
-  while (j <= hi)
-    ax[k++] = a[j++];
-
-  for (int i = lo; i <= hi; i++)
-    a[i] = ax[i];
-
-  return res;
 }
 
 int main() {
   int n;
-  
-  while (scanf("%d", &n), n) {
-    for (int i = 0; i < n; i++)
-      scanf("%d", &a[i]);
-
-    printf("%lld invertions\n", mergeSort(0, n - 1));
-    for (int i = 0; i < n; i++)
-      printf("%d ", a[i]);
-    printf("\n");
+  scanf("%d", &n);
+  vector<int> array(n);
+  for (auto &i : array) {
+    scanf("%d", &i);
   }
-
-  return 0;
+  return !printf("%lld\n", merge_sort(array, 0, array.size() - 1));
 }
