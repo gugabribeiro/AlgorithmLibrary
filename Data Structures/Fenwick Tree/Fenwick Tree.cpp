@@ -3,10 +3,10 @@ struct FenwickTree {
   vector<int> tree;
 
   FenwickTree() {}
-  FenwickTree(int n_):
-    n(n_ + 2) {
-      tree.resize(n);
-    }
+  FenwickTree(int n_) {
+    n = 1 + _n;
+    tree.resize(n);
+  }
 
   int query(int i) {
     int res = 0;
