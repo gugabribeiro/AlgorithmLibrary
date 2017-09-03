@@ -3,10 +3,10 @@ struct FencwickTree2D {
   vector<vector<int>> tree;
 
   FencwickTree2D() {}
-  FencwickTree2D(int n_, int m_): 
-    n(n_ + 2), m(m_ + 2) {
-      tree.assign(n, vector<int>(m, 0));
-    }
+  FencwickTree2D(int n_, int m_) {
+    n = 1 + _n; m = 1 + _m;
+    tree.assign(n, vector<int>(m, 0));
+  }
 
   int query(int x, int y) {
     int res = 0;
