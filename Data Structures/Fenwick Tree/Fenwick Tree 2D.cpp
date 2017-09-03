@@ -3,7 +3,7 @@ struct FencwickTree2D {
   vector<vector<int>> tree;
 
   FencwickTree2D() {}
-  FencwickTree2D(int n_, int m_) {
+  FencwickTree2D(int _n, int _m) {
     n = 1 + _n; m = 1 + _m;
     tree.assign(n, vector<int>(m, 0));
   }
