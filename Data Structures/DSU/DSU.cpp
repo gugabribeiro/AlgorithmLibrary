@@ -10,32 +10,24 @@ struct DisjointSets {
     length.resize(n);
     
     for (int i = 0; i < n; ++i) {
-      id[i] = i;
-      length[i] = 1;
+      id[i] = i; length[i] = 1;
     }
   }
 
   int find_set(int x) {
-    if (id[x] == x) {
-      return x;
-    } else {
-      return id[x] = find_set(id[x]);
-    }
+    return id[x] == x ? x : id[x] = find_set(id[x]);
   }
 
-  bool union_set(int x, int y) {
+  bool union_sets(int x, int y) {
     x = find_set(x), y = find_set(y);
     if (x != y) {
       if (length[x] > length[y]) {
-        id[y] = x;
-        length[x] += length[y];
+        id[y] = x; length[x] += length[y];
       } else {
-        id[x] = y;
-        length[y] += length[x];
+        id[x] = y; length[y] += length[x];
       }
-      return true;
     }
-    return false;
+    return x != y;
   }
 
   bool is_same_set(int x, int y) {
