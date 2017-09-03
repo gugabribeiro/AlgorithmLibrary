@@ -4,7 +4,7 @@ struct FenwickTree {
 
   FenwickTree() {}
   FenwickTree(int _n) {
-    n = 1 + _n;
+    n = 2 + _n;
     tree.resize(n);
   }
 
