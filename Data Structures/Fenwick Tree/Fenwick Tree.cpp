@@ -3,7 +3,7 @@ struct FenwickTree {
   vector<int> tree;
 
   FenwickTree() {}
-  FenwickTree(int n_) {
+  FenwickTree(int _n) {
     n = 1 + _n;
     tree.resize(n);
   }
