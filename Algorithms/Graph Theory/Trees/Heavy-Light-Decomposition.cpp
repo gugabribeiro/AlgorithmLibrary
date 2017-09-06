@@ -1,8 +1,12 @@
 const int N = ...
 
+typedef pair<int, int> edge;
+
 int n; //number of vertices
 int heavy[N], parent[N], depth[N];
 int index_of[N], value[N], chain[N];
+
+vector<edge> graph[N];
 
 int dfs(int u) { 
   int sz = 1;
