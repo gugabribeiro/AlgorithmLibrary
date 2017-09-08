@@ -75,7 +75,7 @@ struct query {
 } queries[N];
 
 void update(int u, int &res) {
-	//update node u
+	//update node u and res
 }
 
 void mos_on_tree(int n, int m) {
