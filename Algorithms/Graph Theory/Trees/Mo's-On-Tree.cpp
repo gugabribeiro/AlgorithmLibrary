@@ -116,7 +116,7 @@ void mos_on_tree(int n, int m) {
 		}
 	}	
 	for (int i = 0; i < m; ++i) {
-		printf("%d", ans[i]);
+		printf("%d\n", ans[i]);
 	}
 }
 
