@@ -1,17 +1,17 @@
 struct Treap {
   struct TreapNode {
     int key, priority;
-    TreapNode* left; TreapNode* right;
+    TreapNode *left, right;
 
     TreapNode() {}
-    TreapNode(int key_,): 
-      key(key_), priority(rand()), 
+    TreapNode(int _key): 
+      key(_key), priority(rand()), 
       left(NULL), right(NULL) {}
   };
 
-  typedef TreapNode* Node;
+  typedef TreapNode * Node;
 
-  void split(Node node, Node& left, Node& right, int key) {
+  void split(Node node, Node &left, Node &right, int key) {
     if (!node) {
       left = right = NULL;
     } else if (key < node->key) {
@@ -23,7 +23,7 @@ struct Treap {
     }
   }
 
-  void merge(Node& node, Node left, Node right) {
+  void merge(Node &node, Node left, Node right) {
     if (!left or !right) {
       node = left ? left : right;
     } else if (left->priority > right->priority) {
@@ -35,7 +35,7 @@ struct Treap {
     }
   }
 
-  void insert(Node& node, Node newNode) {
+  void insert(Node &node, Node newNode) {
     if (!node) {
       node = newNode;
     } else if (newNode->priority > node->priority) {
@@ -46,7 +46,7 @@ struct Treap {
     }
   }
 
-  void erase(Node& node, int key) {
+  void erase(Node &node, int key) {
     if (!node) {
       return;
     } else if (node->key == key) {
