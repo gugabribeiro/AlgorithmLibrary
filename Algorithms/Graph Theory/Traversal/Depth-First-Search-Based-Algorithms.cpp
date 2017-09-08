@@ -54,7 +54,6 @@ void build(int n) {
   fill(num, num + n, -1);
   for (int i = 0; i < n; ++i) {
     if (num[i] == -1) {
-      passed.clear();
       dfs(i, -1);
     }
   }
