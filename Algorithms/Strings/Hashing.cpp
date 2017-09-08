@@ -1,43 +1,27 @@
+//bases = 311 and 317
+//mods = 100000123 and 100000223
+
 struct Hash {
-  #define valueOf(ch) (ch) //change if needed
+  long long base, mod, size;
+  vector<long long> mult, hash;
 
-  int n;
-  lint BASE, MOD, INV;
-  lint *data, *base, *inv;
-
-  lint modPow(lint a, lint b) {
-    lint res = 1;
-    while (b > 0) {
-      if (b & 1) res = res * a % MOD;
-      a = a * a % MOD;
-      b >>= 1;
-    }
-    return res;
-  }
-
-  Hash(char *s, int _n, lint _base, lint _mod) {
-    n = _n;
-
-    MOD = _mod;
-    BASE = _base;
-    INV = modPow(BASE, MOD - 2);
-
-    data = new lint[n + 1];
-    base = new lint[n + 1];
-    inv  = new lint[n + 1];
-
-    data[0] = valueOf(s[0]);
-    base[0] = inv[0] = 1;
-
-    for (int i = 1; i < n; i++) {
-      base[i] = base[i - 1] * BASE % MOD;
-      inv[i] = inv[i - 1] * INV % MOD;
-      data[i] = (data[i - 1] + valueOf(s[i]) * base[i]) % MOD;
+  //if you prefer to use string instead of vector, change declaration of s
+  Hash(long long _base, long long _mod, vector<int> &s) { 
+    base = _base; mod = _mod; size = s.size();
+    mult.resize(size); mult[0] = 1;
+    hash.resize(size); hash[0] = s[0] + 1;
+    for (int i = 1; i < size; ++i) {
+      mult[i] =  (mult[i - 1] * base) % mod;
+      hash[i] = ((hash[i - 1] * base) % mod + s[i] + 1) % mod;
     }
   }
 
-  lint slice(int l, int r) {
-    return (((data[r] - (l == 0 ? 0 : data[l - 1])) % MOD) + MOD) * inv[l] % MOD;
+  long long slice(int l, int r) {
+    if (!l) {
+      return hash[r];
+    } else {
+      return (hash[r] - (hash[l - 1] * mult[r - l + 1]) % mod + mod) % mod;
+    }
   }
 };
 
