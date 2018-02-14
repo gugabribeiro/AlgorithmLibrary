@@ -1,3 +1,7 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
 typedef long long ll;
 
 /* Extended Euclidian Algorithm for Finding Bézout's Coefficients in O(log a) */
@@ -13,6 +17,28 @@ pair <ll, ll> xgcd(ll a, ll b) {
 
 ll mod_inv(ll a, ll m) {
     return (xgcd(a, m).first % m + m) % m;
+}
+
+/* n ^ k mod m in O(log_2(k)) */
+
+ll mod_pow(ll n, ll k, ll m = LLONG_MAX) {
+    ll sol = 1;
+    while (k) {
+        if (k & 1) { sol = (sol * n) % m; }
+        n = (n * n) % m;
+        k >>= 1;
+    }
+    return sol;
+}
+
+/* Find factorial of all numbers between [0 and n) mod p */
+
+vector <ll> facts(ll n, ll p) {
+    vector <ll> f = {1};
+    for (int i = 1; i < n; ++i) {
+        f.push_back((f[i - 1] * i) % p);
+    }
+    return f;
 }
 
 /* Chinese Remainder Theorem states that if we have a system of congruences
@@ -89,4 +115,17 @@ ll lucas_theorem(ll n, ll r, ll m) {
     return x;
 }
 
-/* Wilson's Theorem */
+/* Wilson's Theorem for finding n! mod p */
+
+ll fact(ll n, ll p, ll m) {
+    if (n <= 1) { return 1; }
+    vector <ll> f = facts(m, m);
+    if (n < m) {
+        return (f[n] * fact(n / p, p, m)) % m;
+    } else {
+        ll a = f[m - 1];
+        ll b = f[n % m];
+        ll c = fact(n / p, p, m);
+        return (mod_pow(a, n / m, m) * ((b * c) % m)) % m;
+    }
+}
