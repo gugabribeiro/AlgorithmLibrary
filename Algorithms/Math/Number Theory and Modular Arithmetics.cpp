@@ -1,7 +1,3 @@
-#include <bits/stdc++.h>
-
-using namespace std;
-
 typedef long long ll;
 
 /* Extended Euclidian Algorithm for Finding Bézout's Coefficients in O(log a) */
@@ -113,19 +109,4 @@ ll lucas_theorem(ll n, ll r, ll m) {
         x %= m;
     }
     return x;
-}
-
-/* Wilson's Theorem for finding n! mod p */
-
-ll fact(ll n, ll p, ll m) {
-    if (n <= 1) { return 1; }
-    vector <ll> f = facts(m, m);
-    if (n < m) {
-        return (f[n] * fact(n / p, p, m)) % m;
-    } else {
-        ll a = f[m - 1];
-        ll b = f[n % m];
-        ll c = fact(n / p, p, m);
-        return (mod_pow(a, n / m, m) * ((b * c) % m)) % m;
-    }
 }
