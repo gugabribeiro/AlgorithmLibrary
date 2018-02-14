@@ -1,69 +1,66 @@
-template<typename T>
+template <typename T>
 struct DynamicSegmentTree {
-  struct Node {
-    T val;
-    Node *left, *right;
+    struct Node {
+        T value;
+        Node *left, *right;
 
-    Node():
-      val(T()), left(NULL), right(NULL) {}
-    Node(long long _val):
-      val(_val), left(NULL), right(NULL) {}
-  };
+        Node(T _value = T(), Node *_left = NULL, Node *_right = NULL):
+            value(T()), left(_left), right(_right) {}
+    };
 
-  long long start, end;
-  Node *root;
+    typedef long long ll;
 
-  DynamicSegmentTree(long long _start, long long _end):
-    start(_start), end(_end) {
-      root = new Node();
+    ll left_limit, right_limit;
+    Node *root;
+
+    DynamicSegmentTree(ll _left_limit, ll _right_limit):
+        left_limit(_left_limit), right_limit(_right_limit) {
+            root = new Node();
     }
 
-  T get(Node *node) {
-    if (!node)
-      return T();
-    return node->val;
-  }
-
-  T merge(T val_left, T val_right) {
-    return max(val_left, val_right);
-  }
-
-  T query(Node *node, long long lo, long long hi, long long from, long long to) {
-    if (!node or hi < from or lo > to) {
-      return T();
-    } else if (lo >= from and hi <= to) {
-      return node->val;
-    } else {
-      int md = (lo + hi) / 2;
-      return merge(query(node->left, lo, md, from, to),
-                   query(node->right, md + 1, hi, from, to));
+    T get_value(Node *node) {
+        if (!node) { return T(); }
+        return node->value;
     }
-  }
 
-  Node *update(Node *node, long long lo, long long hi, long long pos, T val) {
-    if (!node) {
-      node = new Node();
+    //Must be implemented
+    T combine(const T &left_value, const T &right_value) {
+        return left_value + right_value;
     }
-    if (lo == hi) {
-      node->val = val;
-    } else {
-      int md = (lo + hi) / 2;
-      if (pos <= md) {
-        node->left = update(node->left, lo, md, pos, val);
-      } else {
-        node->right = update(node->right, md + 1, hi, pos, val);
-      }
-      node->val = merge(get(node->left), get(node->right));
+
+    T query(ll from, ll to) {
+        return query(root, left_limit, right_limit, from, to);
     }
-    return node;
-  }
 
-  //optional
-  void update(long long pos, T val) {
-    update(root, start, end, pos, val);
-  }
+    T query(Node *node, ll left, ll right, ll from, ll to) {
+        if (!node or right < from or left > to) {
+            return T();
+        } else if (left >= from and right <= to) {
+            return node->value;
+        } else {
+            ll mid = left + (right - left) / 2;
+            return combine(query(node->left, left, mid, from, to),
+                           query(node->right, mid + 1, right, from, to));
+        }
+    }
 
-  T query(long long from, long long to) {
-    return query(root, start, end, from, to);
-  }
+    void update(ll at, T value) {
+        root = update(root, left_limit, right_limit, at, value);
+    }
+
+    Node *update(Node *node, ll left, ll right, ll at, T value) {
+        if (!node) { node = new Node(); }
+        if (left == right) {
+            node->value = value;
+        } else {
+            ll mid = left + (right - left) / 2;
+            if (at <= mid) {
+                node->left = update(node->left, left, mid, at, value);
+            } else {
+                node->right = update(node->right, mid + 1, right, at, value);
+            }
+            node->value = combine(get_value(node->left), get_value(node->right));
+        }
+        return node;
+    }
 };
