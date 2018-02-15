@@ -10,7 +10,7 @@ struct PersistentSegmentTree {
     int size;
     vector <Node *> roots;
 
-    PersistentSegmentTree(vector <T> &base) {
+    PersistentSegmentTree(const vector <T> &base) {
         size = base.size();
         roots.push_back(build(0, size - 1, base));
     }
@@ -19,7 +19,7 @@ struct PersistentSegmentTree {
         return left_value + right_value;
     }
 
-    Node *build(int left, int right, vector <T> &base) {
+    Node *build(int left, int right, const vector <T> &base) {
         Node *new_node = new Node();
         if (left == right) {
             new_node->value = base[left];
