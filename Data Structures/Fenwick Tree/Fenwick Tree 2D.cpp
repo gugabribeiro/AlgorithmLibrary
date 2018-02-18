@@ -1,33 +1,29 @@
-struct FencwickTree2D {
-  int n, m;
-  vector<vector<int>> tree;
+template <typename T>
+struct TwoDFenwickTree {
+    int height, width;
+    vector <vector <T> > tree;
 
-  FencwickTree2D() {}
-  FencwickTree2D(int _n, int _m) {
-    n = 2 + _n; m = 2 + _m;
-    tree.assign(n, vector<int>(m, 0));
-  }
-
-  int query(int x, int y) {
-    int res = 0;
-    for (int i = x; i; i -= i & -i) {
-      for (int j = y; j; j -= j & -j) {
-        res += tree[i][j];
-      }
+    TwoDFenwickTree(int _height, int _width) {
+        height = _height;
+        width  = _width;
+        tree = vector <vector <T> > (height, vector <T> (width, T()));
     }
-    return res;
-  }
 
-  int query(int x_l, int y_l, int x_h, int y_h) {
-    return query(x_h, y_h) - query(x_h, y_l - 1) - 
-           query(x_l - 1, y_h) + query(x_l - 1, y_l - 1);
-  }
-
-  void update(int x, int y, int value) {
-    for (int i = x; i < n; i += i & -i) {
-      for (int j = y; j < m; j += j & -j) {
-        tree[i][j] += value;
-      }
+    T query(int x, int y) {
+        T sol = T();
+        for (int i = x; i >= 0; i = (i & (i + 1)) - 1) {
+            for (int j = x; j >= 0; j = (i & (i + 1)) - 1) {
+                sol += tree[i][j];
+            }
+        }
+        return sol;
     }
-  }
+
+    void update(int x, int y, T delta) {
+        for (int i = x; i < height; i = (i | (i + 1))) {
+            for (int j = y; i < width; j = (j | (j + 1))) {
+                tree[i][j] += delta;
+            }
+        }
+    }
 };
