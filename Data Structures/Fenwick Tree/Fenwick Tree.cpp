@@ -1,30 +1,24 @@
+template <typename T>
 struct FenwickTree {
-  int n;
-  vector<int> tree;
+    int size;
+    vector <T> tree;
 
-  FenwickTree() {}
-  FenwickTree(int _n) {
-    n = 2 + _n;
-    tree.resize(n);
-  }
-
-  int query(int i) {
-    int res = 0;
-    while (i) {
-      res += tree[i];
-      i -= i & -i;
-    } 
-    return res;
-  }
-
-  int query(int from, int to) {
-    return query(to) - query(from - 1);
-  }
-
-  void update(int i, int value) {
-    while (i < n) {
-      tree[i] += value;
-      i += i & -i;
+    FenwickTree(int _size) {
+        size = _size;
+        tree = vector <T> (size, T());
     }
-  }
+
+    T query(int i) {
+        T sol = T();
+        for (; i >= 0; i = (i & (i + 1)) - 1) {
+            sol += tree[i];
+        }
+        return sol;
+    }
+
+    void update(int i, T delta) {
+        for (; i < size; i = (i | (i + 1))) {
+            tree[i] += delta;
+        }
+    }
 };
