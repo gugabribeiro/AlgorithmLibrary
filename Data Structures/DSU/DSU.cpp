@@ -1,5 +1,5 @@
 struct DSU {
-    vector <int> id, group;
+    vector <int> id;
 
     DSU() {}
     DSU(int n) {
