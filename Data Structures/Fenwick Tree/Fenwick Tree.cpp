@@ -1,24 +1,24 @@
 template <typename T>
-struct FenwickTree {
+struct fenwick_tree {
     int size;
     vector <T> tree;
 
-    FenwickTree(int _size) {
+    fenwick_tree(int _size) {
         size = _size;
         tree = vector <T> (size, T());
     }
 
-    T query(int i) {
-        T sol = T();
-        for (; i >= 0; i = (i & (i + 1)) - 1) {
-            sol += tree[i];
+    T get(int at) {
+        T accum = T();
+        for (; at >= 0; at = (at & (at + 1)) - 1) {
+            accum += tree[at];
         }
-        return sol;
+        return accum;
     }
 
-    void update(int i, T delta) {
-        for (; i < size; i = (i | (i + 1))) {
-            tree[i] += delta;
+    void push(int at, const T &delta) {
+        for (; at < size; at = (at | (at + 1))) {
+            tree[at] += delta;
         }
     }
 };
